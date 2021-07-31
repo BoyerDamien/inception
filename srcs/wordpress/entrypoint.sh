@@ -10,7 +10,7 @@ then
 		--path=/var/www/wordpress
 	
 	wp core install --path=/var/www/wordpress\
-		--url=$URL"\
+		--url=$URL\
 		--title=Inception\
 		--admin_user=$ADMIN_USER\
 		--admin_password=$ADMIN_PASSWORD\
