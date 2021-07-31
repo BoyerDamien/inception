@@ -34,7 +34,6 @@ replace_template() {
     sed -i "s|{DB_USER}|$DB_USER|g" ./init.sql
     sed -i "s|{DB_PASSWORD}|$DB_PASSWORD|g" ./init.sql
     sed -i "s|{DB_NAME}|$DB_NAME|g" ./init.sql
-    cat ./init.sql
     mysql -u root < ./init.sql
 }
 

@@ -37,7 +37,7 @@ RUN apk add openrc --no-cache \
     php7-pdo_dblib \
     php7-curl \
     php7-ctype \
-    php-mbstring \
+    php-mbstring \  
     php-gettext \
     php7-cgi \
     php7-pdo \
@@ -47,13 +47,6 @@ RUN apk add openrc --no-cache \
 
 # Configure php-fpm
 RUN adduser -D www
-
-RUN sed -i "s|;listen.owner\s*=\s*nobody|listen.owner = www|g" /etc/php7/php-fpm.d/www.conf
-RUN sed -i "s|;listen.group\s*=\s*nobody|listen.group = www|g" /etc/php7/php-fpm.d/www.conf
-RUN sed -i "s|;listen.mode\s*=\s*0660|listen.mode = 0660|g" /etc/php7/php-fpm.d/www.conf
-RUN sed -i "s|user\s*=\s*nobody|user = www|g" /etc/php7/php-fpm.d/www.conf
-RUN sed -i "s|group\s*=\s*nobody|group = www|g" /etc/php7/php-fpm.d/www.conf
-RUN sed -i "s|;log_level\s*=\s*notice|log_level = notice|g" /etc/php7/php-fpm.d/www.conf
 
 RUN sed -i "s|display_errors\s*=\s*Off|display_errors = On|i" /etc/php7/php.ini
 RUN sed -i "s|display_startup_errors\s*=\s*Off|display_startup_errors = On|i" /etc/php7/php.ini
@@ -67,13 +60,12 @@ RUN sed -i "s|;*cgi.fix_pathinfo=.*|cgi.fix_pathinfo= 0 |i" /etc/php7/php.ini
 RUN chown www:www -R /etc/php7 && \
     chown www:www -R /var/log/php7 && \
     chown www:www -R /var/log/php7
-RUN openrc && touch /run/openrc/softlevel
 
 
 # Install wordpress
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 RUN chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
-RUN wp cli update && mkdir -p /var/www && chown www:www -R /var/www
+RUN wp cli update && mkdir -p /var/www
 
 EXPOSE 9000
 

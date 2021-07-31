@@ -15,9 +15,8 @@ then
 		--admin_user=$ADMIN_USER\
 		--admin_password=$ADMIN_PASSWORD\
 		--admin_email=$ADMIN_MAIL
-	chown -R www:www /var/www/wordpress
+	chown -R www:www /var/www/
 	wp user create bob bob@example.com --role=author --user_pass=bob --path=/var/www/wordpress
-	wp user create tom tom@example.com --role=author --user_pass=tom --path=/var/www/wordpress
 fi
 
 php-fpm7 -F

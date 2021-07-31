@@ -2,6 +2,9 @@ version: "3"
 volumes:
     wordpressDB:
     wordpressFiles:
+networks:
+    net:
+        driver: bridge
 services:
     mysql:
         build: ./mysql
@@ -15,6 +18,8 @@ services:
             - ROOT_PASSWORD=${ROOT_PASSWORD}
         volumes:
             - wordpressDB:/var/lib/mysql
+        networks:
+            - net
     wordpress:
         build: ./wordpress
         restart: always
@@ -30,6 +35,23 @@ services:
             - ADMIN_MAIL=${ADMIN_MAIL}
             - ADMIN_PASSWORD=${ADMIN_PASSWORD}
             - ADMIN_USER=${ADMIN_USER}
-            - URL=${WORDPRESS_URL}*
+            - URL=${WORDPRESS_URL}
         volumes:
             - wordpressFiles:/var/www/wordpress
+            - ./wordpress/www.conf:/etc/php7/php-fpm.d/www.conf
+        networks:
+            - net
+    nginx:
+        build: ./nginx
+        restart: always
+        ports:
+            - 80:80
+            - 443:443
+        volumes_from:
+            - wordpress:rw
+        depends_on:
+            - wordpress
+        volumes:
+            - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+        networks:
+            - net
