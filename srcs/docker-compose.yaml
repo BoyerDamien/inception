@@ -1,0 +1,32 @@
+version: "3"
+volumes:
+    wordpressDB:
+services:
+    mysql:
+        build: ./mysql
+        restart: always
+        ports:
+            - 3306:3306
+        environment:
+            - DB_USER=dboyer
+            - DB_PASSWORD=password
+            - DB_NAME=wordpress
+            - ROOT_PASSWORD=password
+        volumes:
+            - wordpressDB:/var/lib/mysql
+    wordpress:
+        build: ./wordpress
+        restart: always
+        ports:
+            - 9000:9000
+        depends_on:
+            - mysql
+        environment:
+            - DB_NAME=wordpress
+            - DB_HOST=mysql
+            - DB_PASSWORD=password
+            - DB_USER=dboyer
+            - ADMIN_MAIL=test@test.com
+            - ADMIN_PASSWORD=password
+            - ADMIN_USER=user1
+            - URL=http://localhost
