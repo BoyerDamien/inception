@@ -52,6 +52,8 @@ install_db() {
 main() {
 
     check_env
+
+    mv my.cnf /etc/mysql/my.cnf
     
     if [[ ! -d /var/lib/mysql/mysql ]]
     then

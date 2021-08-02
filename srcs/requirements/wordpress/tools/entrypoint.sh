@@ -1,5 +1,4 @@
 #! /bin/ash
-
 if [ ! -f /var/www/wordpress/wp-config.php ];
 then
 	wp core download    --path=/var/www/wordpress

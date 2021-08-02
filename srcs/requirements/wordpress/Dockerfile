@@ -69,6 +69,8 @@ RUN wp cli update && mkdir -p /var/www
 
 EXPOSE 9000
 
-ADD ./entrypoint.sh entrypoint.sh
+COPY ./tools /tools
+
+WORKDIR /tools
 
 ENTRYPOINT [ "./entrypoint.sh" ]

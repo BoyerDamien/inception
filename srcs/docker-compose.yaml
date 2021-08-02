@@ -7,7 +7,7 @@ networks:
         driver: bridge
 services:
     mysql:
-        build: ./mysql
+        build: ./requirements/mariadb
         restart: always
         ports:
             - 3306:3306
@@ -18,10 +18,11 @@ services:
             - ROOT_PASSWORD=${ROOT_PASSWORD}
         volumes:
             - wordpressDB:/var/lib/mysql
+            - ./requirements/mariadb/tools/my.cnf:/etc/mysql/my.cnf
         networks:
             - net
     wordpress:
-        build: ./wordpress
+        build: ./requirements/wordpress
         restart: always
         ports:
             - 9000:9000
@@ -38,11 +39,11 @@ services:
             - URL=${WORDPRESS_URL}
         volumes:
             - wordpressFiles:/var/www/wordpress
-            - ./wordpress/www.conf:/etc/php7/php-fpm.d/www.conf
+            - ./requirements/wordpress/tools/www.conf:/etc/php7/php-fpm.d/www.conf
         networks:
             - net
     nginx:
-        build: ./nginx
+        build: ./requirements/nginx
         restart: always
         ports:
             - 80:80
@@ -52,6 +53,6 @@ services:
         depends_on:
             - wordpress
         volumes:
-            - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+            - ./requirements/nginx/tools/nginx.conf:/etc/nginx/nginx.conf
         networks:
             - net
