@@ -1,11 +1,11 @@
 all:
-	docker-compose --file ./srcs/docker-compose.yaml --env-file ./srcs/.env up
+	cd srcs && docker-compose up
 
 re: clean
-	docker-compose --file ./srcs/docker-compose.yaml --env-file ./srcs/.env up --build
+	cd srcs && docker-compose up --build
 
 stop:
-	docker-compose --file ./srcs/docker-compose.yaml down
+	cd srcs && docker-compose down
 
 clean: stop
 	docker volume prune -f
