@@ -43,7 +43,10 @@ RUN apk add openrc --no-cache \
     php7-pdo \
     php7-session \
     php7-xml \
-    php7-zlib
+    php7-zlib\
+    php7-imagick\
+    php7-exif\
+    php7-fileinfo
 
 # Configure php-fpm
 RUN adduser -D www
@@ -52,9 +55,9 @@ RUN sed -i "s|display_errors\s*=\s*Off|display_errors = On|i" /etc/php7/php.ini
 RUN sed -i "s|display_startup_errors\s*=\s*Off|display_startup_errors = On|i" /etc/php7/php.ini
 RUN sed -i "s|error_reporting\s*=\s*E_ALL & ~E_DEPRECATED & ~E_STRICT|error_reporting = E_COMPILE_ERROR\|E_RECOVERABLE_ERROR\|E_ERROR\|E_CORE_ERROR|i" /etc/php7/php.ini
 RUN sed -i "s|;*memory_limit =.*|memory_limit = 512M|i" /etc/php7/php.ini
-RUN sed -i "s|;*upload_max_filesize =.*|upload_max_filesize = 50M|i" /etc/php7/php.ini
-RUN sed -i "s|;*max_file_uploads =.*|max_file_uploads = 200|i" /etc/php7/php.ini
-RUN sed -i "s|;*post_max_size =.*|post_max_size = 100M|i" /etc/php7/php.ini
+RUN sed -i "s|;*upload_max_filesize =.*|upload_max_filesize = 500M|i" /etc/php7/php.ini
+RUN sed -i "s|;*max_file_uploads =.*|max_file_uploads = 500|i" /etc/php7/php.ini
+RUN sed -i "s|;*post_max_size =.*|post_max_size = 500M|i" /etc/php7/php.ini
 RUN sed -i "s|;*cgi.fix_pathinfo=.*|cgi.fix_pathinfo= 0 |i" /etc/php7/php.ini
 
 RUN chown www:www -R /etc/php7 && \
