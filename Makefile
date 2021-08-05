@@ -1,7 +1,11 @@
-all:
+all: setup
 	cd srcs && docker-compose up
 
-re: clean
+setup:
+	mkdir -p /home/dboyer/data/wordpressDB
+	mkdir -p /home/dboyer/data/wordpressFiles
+
+re: clean setup 
 	cd srcs && docker-compose up --build
 
 stop:
@@ -10,3 +14,5 @@ stop:
 clean: stop
 	docker volume prune -f
 	docker system prune -af
+	sudo rm -rf /home/dboyer/data
+	

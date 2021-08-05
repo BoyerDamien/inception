@@ -1,10 +1,23 @@
-version: "2"
-volumes:
-    wordpressDB:
-    wordpressFiles:
+version: "3"
+
 networks:
     net:
         driver: bridge
+volumes:
+  wordpressDB:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/dboyer/data/wordpressDB
+  wordpressFiles:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/dboyer/data/wordpressFiles
+
+
 services:
     mysql:
         build: ./requirements/mariadb
@@ -48,11 +61,14 @@ services:
         ports:
             - 80:80
             - 443:443
-        volumes_from:
-            - wordpress:rw
         depends_on:
             - wordpress
         volumes:
             - ./requirements/nginx/tools/nginx.conf:/etc/nginx/nginx.conf
+            - type: volume
+              source: wordpressFiles
+              target: /var/www/wordpress
+              volume:
+                nocopy: true
         networks:
             - net
