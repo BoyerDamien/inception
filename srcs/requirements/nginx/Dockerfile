@@ -12,6 +12,6 @@ RUN mkdir -p /etc/ssl/certs && mkdir -p /etc/ssl/private \
 	&& openssl req -x509 -nodes -days 365 -newkey rsa:2048 -subj '/C=FR/ST=75/L=Paris/O=42/CN=inception' \
 	-keyout /etc/ssl/private/inception.key -out /etc/ssl/certs/inception.crt
 
-EXPOSE 80 443
+EXPOSE 443
 
 ENTRYPOINT nginx -g 'pid /tmp/nginx.pid; daemon off;' 
