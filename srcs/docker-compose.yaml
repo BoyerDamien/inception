@@ -17,7 +17,6 @@ volumes:
       type: none
       device: /home/dboyer/data/wordpressFiles
 
-
 services:
     mysql:
         build: ./requirements/mariadb
