@@ -1,12 +1,13 @@
-all: setup
-	cd srcs && docker-compose up
+START=docker-compose -f ./srcs/docker-compose.yaml --env-file ./srcs/.env up
+VOL_PATH=/home/dboyer/data
 
+all: setup
+	$(START)
 setup:
-	mkdir -p /home/dboyer/data/wordpressDB
-	mkdir -p /home/dboyer/data/wordpressFiles
+	sudo mkdir -p $(VOL_PATH)/wordpressDB $(VOL_PATH)/wordpressFiles
 
 re: clean setup 
-	cd srcs && docker-compose up --build
+	$(START) --build
 
 stop:
 	cd srcs && docker-compose down
@@ -14,5 +15,5 @@ stop:
 clean: stop
 	docker volume prune -f
 	docker system prune -af
-	sudo rm -rf /home/dboyer/data
+	sudo rm -rf $(VOL_PATH)
 	

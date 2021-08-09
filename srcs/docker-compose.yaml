@@ -22,7 +22,7 @@ services:
         build: ./requirements/mariadb
         restart: always
         ports:
-            - 3306:3306
+            - 30006:3306
         environment:
             - DB_USER=${DB_USER}
             - DB_PASSWORD=${DB_PASSWORD}
@@ -54,6 +54,8 @@ services:
             - ./requirements/wordpress/tools/www.conf:/etc/php7/php-fpm.d/www.conf
         networks:
             - net
+        extra_hosts:
+                - "dboyer.42.fr:172.17.0.1"
     nginx:
         build: ./requirements/nginx
         restart: always
@@ -63,10 +65,6 @@ services:
             - wordpress
         volumes:
             - ./requirements/nginx/tools/nginx.conf:/etc/nginx/nginx.conf
-            - type: volume
-              source: wordpressFiles
-              target: /var/www/wordpress
-              volume:
-                nocopy: true
+            - wordpressFiles:/var/www/wordpress
         networks:
             - net
