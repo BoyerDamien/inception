@@ -18,8 +18,9 @@ volumes:
       device: /home/dboyer/data/wordpressFiles
 
 services:
-    mysql:
+    mariadb:
         build: ./requirements/mariadb
+        image: mariadb
         restart: always
         ports:
             - 30006:3306
@@ -35,11 +36,12 @@ services:
             - net
     wordpress:
         build: ./requirements/wordpress
+        image: wordpress
         restart: always
         ports:
             - 9000:9000
         depends_on:
-            - mysql
+            - mariadb
         environment:
             - DB_NAME=${DB_NAME}
             - DB_HOST=${DB_HOST}
@@ -58,6 +60,7 @@ services:
                 - "dboyer.42.fr:172.17.0.1"
     nginx:
         build: ./requirements/nginx
+        image: nginx
         restart: always
         ports:
             - 443:443
